@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:registrationapp/providers/logout_provider.dart';
+import 'package:registrationapp/providers/search__and_users_list_provider.dart';
 import 'package:registrationapp/screens/home_screen.dart';
 import 'package:registrationapp/screens/login_screen.dart';
 import 'package:registrationapp/screens/sign_up.dart';
@@ -30,7 +32,9 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => FormProvider()), // Register FormProvider
-        ChangeNotifierProvider(create: (_) => SignUpProvider()), // Register SignUpProvider
+        ChangeNotifierProvider(create: (_) => SignUpProvider()),
+        ChangeNotifierProvider(create: (_) => LogOutProvider()), // Register SignUpProvider
+        ChangeNotifierProvider(create: (_) => SearchProvider()), // Register SignUpProvider
       ],
       child: const MyApp(),
     ),

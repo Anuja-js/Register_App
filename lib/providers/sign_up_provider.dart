@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../screens/login_Screen.dart';
 import '../services/auth_service.dart';
+import 'package:get/get.dart';
 
 class SignUpProvider with ChangeNotifier {
   final formKey = GlobalKey<FormState>();
@@ -42,14 +43,10 @@ class SignUpProvider with ChangeNotifier {
 
   void saveForm(BuildContext context) {
     if (formKey.currentState!.validate()) {
-      // checkLogIn(context);
       formKey.currentState!.save();
       AuthServices.signupUser(
           emailController.text, passwordController.text, nameController.text, context);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (ctx) {
-            return  LoginScreen();
-          }));
+      Get.to(() => LoginScreen());
     }
     else {
       ScaffoldMessenger.of(context).showSnackBar(

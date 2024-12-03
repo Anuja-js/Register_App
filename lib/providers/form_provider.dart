@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart'; // Add this import to use kDebugMode
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:registrationapp/screens/home_screen.dart';
+import 'package:get/get.dart';
 
 class FormProvider with ChangeNotifier {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -12,10 +13,10 @@ class FormProvider with ChangeNotifier {
   bool _login = false;
 
   bool get login => _login;
-  void toggleObscurePassword() {
-    obscurePassword = !obscurePassword;
-    notifyListeners();
-  }
+  // void toggleObscurePassword() {
+  //   obscurePassword = !obscurePassword;
+  //   notifyListeners();
+  // }
   Future<void> isLogedUser(BuildContext context, String emailController, String passwordController) async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
@@ -42,10 +43,7 @@ class FormProvider with ChangeNotifier {
           content: Text('User logged in successfully'),
         ));
 
-        // Navigate to HomeScreen
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (ctx) {
-          return const HomeScreen();
-        }));
+        Get.offAll(() =>  HomeScreen());
       } catch (e) {
         if (!context.mounted) return;
 
