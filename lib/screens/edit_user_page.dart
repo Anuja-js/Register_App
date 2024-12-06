@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../customs/custom_colors.dart';
-import '../providers/user_details_provider.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
+import 'package:file_picker/file_picker.dart';
+import '../providers/user_details_provider.dart';
+import '../customs/custom_colors.dart';
 
-class UserDetailsEdit extends StatelessWidget {
+class UserDetailsEdit extends StatefulWidget {
   final String appBarTitle;
-  final  documentSnapshot;
+  final dynamic documentSnapshot;
 
   const UserDetailsEdit({
     Key? key,
@@ -16,14 +16,19 @@ class UserDetailsEdit extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<UserDetailsEdit> createState() => _UserDetailsEditState();
+}
+
+class _UserDetailsEditState extends State<UserDetailsEdit> {
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          UserDetailsProvider()..initialize(appBarTitle, documentSnapshot),
+      create: (_) => UserDetailsProvider()
+        ..initialize(widget.appBarTitle, widget.documentSnapshot),
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text(appBarTitle, style: const TextStyle(color: Colors.white)),
+          title: Text(widget.appBarTitle, style: const TextStyle(color: Colors.white)),
           backgroundColor: Colors.black,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -40,9 +45,6 @@ class UserDetailsEdit extends StatelessWidget {
                     fit: BoxFit.fill,
                   ),
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                ),
                 Center(
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxWidth: 500),
@@ -53,72 +55,48 @@ class UserDetailsEdit extends StatelessWidget {
                         children: <Widget>[
                           InkWell(
                             onTap: () async {
-                              // Handle file picking
                               FilePickerResult? result =
-                                  await FilePicker.platform.pickFiles(
+                              await FilePicker.platform.pickFiles(
                                 type: FileType.image,
                                 withData: true,
                                 allowMultiple: false,
                               );
                               if (result != null) {
-                                provider
-                                    .updateImageBytes(result.files.first.bytes);
+                                provider.updateImageBytes(result.files.first.bytes);
                               }
                             },
-                            child: Column(
-                              children: [
-                                sh10,
-                                CircleAvatar(
-                                  backgroundColor: black,
-                                  radius: 50,
-                                  child: provider.imageBytes == null
-                                      ? provider.image != "" &&
-                                              provider.image != null
-                                          ? SizedBox(
-                                              width: 100,
-                                              height: 100,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                child: Image.network(
-                                                  provider.image.toString(),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            )
-                                          : const Icon(
-                                              Icons.camera_alt_outlined,
-                                              color: Colors.white)
-                                      : provider.imageBytes != null
-                                          ? SizedBox(
-                                              width: 100,
-                                              height: 100,
-                                              child: ClipRRect(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                child: Image.memory(
-                                                  provider.imageBytes!,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                              ),
-                                            )
-                                          : const Icon(
-                                              Icons.camera_alt_outlined,
-                                              color: Colors.white),
+                            child: CircleAvatar(
+                              backgroundColor: black,
+                              radius: 50,
+                              child: provider.imageBytes == null
+                                  ?provider.image!=null&&  provider.image!.isNotEmpty
+                                  ? ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Image.network(
+                                  provider.image.toString(),
+                                  fit: BoxFit.cover,
+                                  width: 100,
+                                  height: 100,
                                 ),
-                              ],
+                              )
+                                  : const Icon(Icons.camera_alt_outlined, color: Colors.white)
+                                  : ClipRRect(
+                                borderRadius: BorderRadius.circular(50),
+                                child: Image.memory(
+                                  provider.imageBytes!,
+                                  fit: BoxFit.cover,
+                                  width: 100,
+                                  height: 100,
+                                ),
+                              ),
                             ),
                           ),
                           sh20,
                           buildTextFormField(provider.nameController, 'Name'),
-                          buildTextFormField(
-                              provider.descriptionController, 'Student ID'),
-                          buildTextFormField(provider.qualificationController,
-                              'Study Program'),
-                          buildTextFormField(provider.ageController, 'Age',
-                              keyboardType: TextInputType.number),
-                          buildTextFormField(provider.phoneController, 'Phone',
-                              keyboardType: TextInputType.number),
+                          buildTextFormField(provider.descriptionController, 'Student ID'),
+                          buildTextFormField(provider.qualificationController, 'Study Program'),
+                          buildTextFormField(provider.ageController, 'Age', keyboardType: TextInputType.number),
+                          buildTextFormField(provider.phoneController, 'Phone', keyboardType: TextInputType.number),
                           sh50,
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -126,19 +104,18 @@ class UserDetailsEdit extends StatelessWidget {
                               padding: const EdgeInsets.symmetric(vertical: 15),
                             ),
                             onPressed: () => provider.saveUser(
-                                appBarTitle, documentSnapshot, context),
+                              widget.appBarTitle,
+                              widget.documentSnapshot,
+                              context,
+                            ),
                             child: provider.load
-                                ? const SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(),
-                                  )
+                                ? const CircularProgressIndicator()
                                 : Text(
-                                    appBarTitle == 'Add Student'
-                                        ? 'Save Student'
-                                        : 'Update Student',
-                                    style: TextStyle(color: white),
-                                  ),
+                              widget.appBarTitle == 'Add Student'
+                                  ? 'Save Student'
+                                  : 'Update Student',
+                              style: TextStyle(color: white),
+                            ),
                           ),
                         ],
                       ),

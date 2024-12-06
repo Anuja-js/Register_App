@@ -11,6 +11,7 @@ import '../customs/custom_colors.dart';
 import '../customs/text_custom.dart';
 
 class UserDetailsProvider extends ChangeNotifier {
+
   // Form controllers
   final TextEditingController nameController = TextEditingController();
   final TextEditingController qualificationController = TextEditingController();
@@ -24,15 +25,18 @@ class UserDetailsProvider extends ChangeNotifier {
   bool load = false;
   String? image;
   final formKey = GlobalKey<FormState>();
-  void initialize(String appBarTitle, Map<String, dynamic>? documentSnapshot) {
-    if (appBarTitle == "Edit User" && documentSnapshot != null) {
-      nameController.text = documentSnapshot["studentName"];
-      qualificationController.text = documentSnapshot["studyProgram"];
-      descriptionController.text = documentSnapshot["studentId"];
-      ageController.text = documentSnapshot["age"];
-      phoneController.text = documentSnapshot["phone"];
-      image = documentSnapshot["image"] ?? "";
+  void initialize(String appBarTitle, DocumentSnapshot? documentSnapshot) {
+    print("...................................................${documentSnapshot?.id.toString()}");
+    if ( documentSnapshot != null) {
+      nameController.text = documentSnapshot['studentName'] ?? '';
+      descriptionController.text = documentSnapshot['studentId'] ?? '';
+      qualificationController.text = documentSnapshot['studyProgram'] ?? '';
+      ageController.text = documentSnapshot['age']?.toString() ?? '';
+      phoneController.text = documentSnapshot['phone'] ?? '';
+      image = documentSnapshot['image'] ?? '';
+      notifyListeners();
     }
+
   }
 
   Future<String> uploadImage(Uint8List imageBytes) async {
@@ -51,7 +55,7 @@ class UserDetailsProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> saveUser(String appBarTitle, Map<String, dynamic>? documentSnapshot,BuildContext context) async {
+  Future<void> saveUser(String appBarTitle, DocumentSnapshot? documentSnapshot,BuildContext context) async {
     if (formKey.currentState!.validate()) {
 
         load = true;
@@ -85,7 +89,7 @@ class UserDetailsProvider extends ChangeNotifier {
         };
 
         // If editing an existing user
-        if (appBarTitle == "Edit User") {
+        if (appBarTitle != "Add Student") {
           // First delete the old document with the previous student name
           await FirebaseFirestore.instance
               .collection("Students")
@@ -132,6 +136,5 @@ Get.offAll(HomeScreen());
     imageBytes = bytes;
     notifyListeners();
   }
-
 
 }

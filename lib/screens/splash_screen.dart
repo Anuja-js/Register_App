@@ -49,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
           sh20,
               TextCustom(
-                text: "Students Register",
+                text: "My Students",
                 textSize: 20.sp,
                 color: black,
               ),

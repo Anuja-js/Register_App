@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:registrationapp/controllers/grid_controller.dart';
 import 'package:registrationapp/customs/text_custom.dart';
@@ -31,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final searchProvider = Provider.of<SearchProvider>(context);
     final logoutProvider = Provider.of<LogOutProvider>(context);
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -104,17 +103,16 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             width: MediaQuery.of(context).size.width,
           ),
-         controllerPress.isPress.value
-              ? searchProvider.filteredList.isEmpty
+          Obx(() => controllerPress.isPress.value
+              ? (searchProvider.filteredList.isEmpty
               ? Center(
-              child: TextCustom(
-                text: "Student Not found",
-                color: black,
-              ))
-              :
-         Center(child: getUsersList(searchProvider))
-              :
-         Center(child: getUserWrapView(searchProvider))
+            child: TextCustom(
+              text: "Student Not found",
+              color: black,
+            ),
+          )
+              : Center(child: getUsersList(searchProvider)))
+              : Center(child: getUserWrapView(searchProvider))),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -212,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         sw10,
                         SizedBox(
-                          width: MediaQuery.of(context).size.width / 12,
+                          width: MediaQuery.of(context).size.width / 4,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -234,7 +232,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             GestureDetector(
                                 onTap: () async{
-                                 Get.to(UserDetailsEdit(documentSnapshot:documentSnapshot,appBarTitle: documentSnapshot["studentName"],));
+                                 Get.to(UserDetailsEdit(documentSnapshot:documentSnapshot,
+                                   appBarTitle: documentSnapshot["studentName"],));
                                   },
                                 child: const Icon(Icons.edit,
                                     color: Colors.black54)),

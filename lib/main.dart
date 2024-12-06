@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:registrationapp/providers/logout_provider.dart';
 import 'package:registrationapp/providers/search__and_users_list_provider.dart';
+import 'package:registrationapp/providers/user_details_provider.dart';
 import 'package:registrationapp/screens/home_screen.dart';
 import 'package:registrationapp/screens/login_screen.dart';
 import 'package:registrationapp/screens/sign_up.dart';
@@ -35,6 +36,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => SignUpProvider()),
         ChangeNotifierProvider(create: (_) => LogOutProvider()), // Register SignUpProvider
         ChangeNotifierProvider(create: (_) => SearchProvider()), // Register SignUpProvider
+        ChangeNotifierProvider(create: (_) => UserDetailsProvider()), // Register SignUpProvider
       ],
       child: const MyApp(),
     ),
