@@ -11,32 +11,21 @@ import 'package:registrationapp/screens/login_screen.dart';
 import 'package:registrationapp/screens/sign_up.dart';
 import 'package:registrationapp/screens/splash_screen.dart';
 import 'firebase_options.dart';
-import 'providers/form_provider.dart'; // Add FormProvider import
-import 'providers/sign_up_provider.dart'; // Import SignUpProvider
-import 'package:firebase_auth/firebase_auth.dart';
-import "package:firebase_app_check/firebase_app_check.dart";
+import 'providers/form_provider.dart';
+import 'providers/sign_up_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // FirebaseAuth.instance.setSettings(
-  //   forceRecaptchaFlow: false,
-  //   appVerificationDisabledForTesting: true, // Temporarily disable app verification.
-  // );
-  // await FirebaseAppCheck.instance.activate(
-  //   androidProvider: AndroidProvider.debug,
-  //
-  //
-  // );
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => FormProvider()), // Register FormProvider
+        ChangeNotifierProvider(create: (_) => FormProvider()),
         ChangeNotifierProvider(create: (_) => SignUpProvider()),
-        ChangeNotifierProvider(create: (_) => LogOutProvider()), // Register SignUpProvider
-        ChangeNotifierProvider(create: (_) => SearchProvider()), // Register SignUpProvider
-        ChangeNotifierProvider(create: (_) => UserDetailsProvider()), // Register SignUpProvider
+        ChangeNotifierProvider(create: (_) => LogOutProvider()),
+        ChangeNotifierProvider(create: (_) => SearchProvider()),
+        ChangeNotifierProvider(create: (_) => UserDetailsProvider()),
       ],
       child: const MyApp(),
     ),

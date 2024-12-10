@@ -12,7 +12,7 @@ import 'sign_up.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LoginScreen extends StatelessWidget {
-  final LoginController controller = Get.put(LoginController());
+  final LoginController controller = Get.put(LoginController());// Di
 
   LoginScreen({super.key});
 

@@ -3,6 +3,7 @@ import 'package:registrationapp/controllers/grid_controller.dart';
 import 'package:registrationapp/customs/text_custom.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:registrationapp/providers/logout_provider.dart';
+import 'package:registrationapp/screens/details_page.dart';
 import 'package:registrationapp/screens/edit_user_page.dart';
 import '../customs/custom_colors.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +19,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final GridController controllerPress=Get.put(GridController());
+  final GridController controllerPress=Get.put(GridController()); // Di
+
   @override
   void initState() {
     context.read<SearchProvider>().fetchStudents();
@@ -149,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: MediaQuery.of(context).size.height / 7,
               child: InkWell(
                 onTap: () {
-                  Get.to(UserDetailsEdit(appBarTitle: documentSnapshot["studentName"] ,));
+                  Get.to(UserDetails(searchProvider.userList[position] ,));
                 },
                 child: Padding(
                   padding:
@@ -272,10 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           return InkWell(
             onTap:() {
-              Get.to(UserDetailsEdit(appBarTitle: documentSnapshot["studentName"] ,documentSnapshot: documentSnapshot,));
-
-              // Navigator.of(context).push(MaterialPageRoute(
-              //     builder: (context) => UserDetails(userList[position])));
+              Get.to(UserDetails(searchProvider.userList[position] ,));
             },
 
             child: Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),

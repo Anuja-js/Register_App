@@ -27,6 +27,8 @@ class SignUpScreen extends StatelessWidget {
         fit: BoxFit.fill,
       ),
             ),
+            SizedBox(height: MediaQuery.of(context).size.height,width: MediaQuery.of(context).size.width,),
+
             Positioned(
       top: 100,
       left: 10,

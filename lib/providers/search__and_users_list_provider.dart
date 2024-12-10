@@ -13,7 +13,7 @@ class SearchProvider extends ChangeNotifier {
     await FirebaseFirestore.instance.collection("Students").get();
     userList = querySnapshot.docs;
     filteredList = userList; // Initialize filteredList
-    notifyListeners(); // Notify listeners to rebuild widgets
+    notifyListeners();
   }
 
   // Filter the search results
