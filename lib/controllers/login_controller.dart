@@ -1,39 +1,46 @@
-import 'package:get/get.dart';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginController extends GetxController {
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-  var isLoading = false.obs;
-  var obscurePass = true.obs;
-  void toggleObscurePass() {
-    obscurePass.value = !obscurePass.value;
+import '../customs/constants.dart';
+import '../main.dart';
+import '../screens/home_screen.dart';
+class LoginController extends GetxController{
+  final nameController = TextEditingController();
+  final passwordController = TextEditingController();
+  final formkey = GlobalKey<FormState>();
+  final obscure = true.obs;
+  isObscure(){
+    obscure.value=!obscure.value;
   }
-  Future<void> login() async {
-    isLoading.value = true;
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
 
-      Get.snackbar('Error', 'Please enter email and password',
-          snackPosition: SnackPosition.BOTTOM);
-      isLoading.value = false;
-      return;
+  void checkLogIn(BuildContext context) async {
+    final username = nameController.text;
+    final password = passwordController.text;
+    if (username == "Anuja" && password == "anu123") {
+      final sharedprfs = await SharedPreferences.getInstance();
+      await sharedprfs.setBool(saveKey, true);
+      Get.snackbar(
+        "Login Success","",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor:green,
+        colorText:black,
+        margin: const EdgeInsets.all(15.0),
+        duration: const Duration(seconds: 3),
+      );
+     Get.off(HomePage());
+    } else {
+      Get.snackbar(
+        "Login Failed",
+        "User name or password is incorrect",
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor:red,
+        colorText:black,
+        margin: const EdgeInsets.all(15.0),
+        duration: const Duration(seconds: 3),
+      );
     }
-
-    try {
-     await Future.delayed(Duration(seconds: 2));
-     Get.offAllNamed('/home');
-    } catch (e) {
-      Get.snackbar('Error', 'Login failed: ${e.toString()}',
-          snackPosition: SnackPosition.BOTTOM);
-    } finally {
-      isLoading.value = false;
-    }
   }
 
-  @override
-  void onClose() {
-    emailController.dispose();
-    passwordController.dispose();
-    super.onClose();
-  }
 }

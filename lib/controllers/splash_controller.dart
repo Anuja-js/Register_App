@@ -1,34 +1,31 @@
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:registrationapp/screens/home_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../screens/login_Screen.dart';
+import '../screens/home_screen.dart';
+import '../screens/login_screen.dart';
 
 class SplashController extends GetxController {
+  static const saveKey = "isLoggedIn";
+
   @override
   void onInit() {
-    super.onInit();
     checkUserLoggedIn();
+    super.onInit();
   }
 
-  Future<void> initializeApp() async {
-    await Future.delayed(const Duration(seconds: 3)); // Simulated delay
-    // Add your initialization logic here (e.g., API calls, local storage)
-  }
-  // Check login state and navigate accordingly
   Future<void> checkUserLoggedIn() async {
     final sharedPrefs = await SharedPreferences.getInstance();
-    bool? isLoggedIn = sharedPrefs.getBool('isLoggedIn');
-
-    // Wait for splash screen duration
-    await Future.delayed(const Duration(seconds: 3));
-
-    if (isLoggedIn == null || isLoggedIn == false) {
-      Get.off(() =>  LoginScreen());
+    final userLoggedIn = sharedPrefs.getBool(saveKey);
+    print(userLoggedIn);
+    await Future.delayed(const Duration(seconds: 3)); // Splash delay
+    if ( userLoggedIn == false) {
+     goToLogin();
     } else {
-      Get.off(() =>  HomeScreen());
+      Get.off(() => const HomePage());
     }
+  }
+  Future<void> goToLogin() async {
+    await Future.delayed(const Duration(seconds: 3));
+    Get.off(() =>  LoginScreen());
   }
 }

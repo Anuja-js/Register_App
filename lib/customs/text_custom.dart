@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'custom_colors.dart';
+import 'constants.dart';
+
 
 
 class TextCustom extends StatelessWidget {
@@ -22,7 +23,7 @@ class TextCustom extends StatelessWidget {
     required this.text,
     this.textSize = 12,
     this.fontWeight = FontWeight.normal,
-    this.color = primaryColor,
+    this.color = black,
     this.textAlign = TextAlign.start,
     this.decoration = TextDecoration.none,
     this.fontStyle = FontStyle.normal,
