@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:registrationapp/controllers/splash_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../customs/constants.dart';
@@ -20,7 +21,7 @@ class LoginController extends GetxController{
     final password = passwordController.text;
     if (username == "Anuja" && password == "anu123") {
       final sharedprfs = await SharedPreferences.getInstance();
-      await sharedprfs.setBool(saveKey, true);
+      await sharedprfs.setBool(SplashController.saveKey, true);
       Get.snackbar(
         "Login Success","",
         snackPosition: SnackPosition.BOTTOM,

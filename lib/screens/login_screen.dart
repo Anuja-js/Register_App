@@ -8,9 +8,6 @@ import '../controllers/login_controller.dart';
 import '../customs/constants.dart';
 class LoginScreen extends StatelessWidget {
    LoginScreen({Key? key}) : super(key: key);
-
-
-
   @override
   Widget build(BuildContext context) {
     final LoginController controller = Get.find<LoginController>();

@@ -15,10 +15,10 @@ class SplashController extends GetxController {
 
   Future<void> checkUserLoggedIn() async {
     final sharedPrefs = await SharedPreferences.getInstance();
-    final userLoggedIn = sharedPrefs.getBool(saveKey);
+    final userLoggedIn = await sharedPrefs.getBool(saveKey);
     print(userLoggedIn);
-    await Future.delayed(const Duration(seconds: 3)); // Splash delay
-    if ( userLoggedIn == false) {
+    await Future.delayed(const Duration(seconds: 3));
+    if ( userLoggedIn==null || userLoggedIn == false) {
      goToLogin();
     } else {
       Get.off(() => const HomePage());

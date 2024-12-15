@@ -1,192 +1,170 @@
-// ignore_for_file: use_build_context_synchronously
-
+// ignore_for_file: use_build_context_synchronously, depend_on_referenced_packages
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
+import 'package:registrationapp/controllers/home_controller.dart';
+import 'package:registrationapp/customs/text_custom.dart';
+import '../customs/constants.dart';
 import '../models/user.dart';
-import '../utils/database_helper.dart';
-import 'edit_user_details.dart';
-import 'home_screen.dart';
+import 'package:get/get.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserDetails extends StatelessWidget {
   final User user;
-
   const UserDetails(this.user, {super.key});
-
   @override
   Widget build(BuildContext context) {
+    final HomeController controller = Get.find<HomeController>();
     return Scaffold(
       appBar: AppBar(
-        title: Text(user.name!,style: const TextStyle(color: Colors.white),),
-        backgroundColor: Colors.black,
+        title: TextCustom(
+          text: user.name!,
+          color: white,
+          textSize: 15.sp,
+        ),
+        backgroundColor: black,
       ),
       body: Stack(
         children: [
           Positioned(
               top: 0,
-              left:0,
+              left: 0,
               right: 0,
               bottom: 0,
-              child: Image.asset("assets/images/background.jpeg",fit: BoxFit.fill,)),
+              child: Image.asset(
+                "assets/images/background.jpeg",
+                fit: BoxFit.fill,
+              )),
           Positioned(
-            left:  MediaQuery.of(context).size.width/2.55, top: 20,
-
-            child:   CircleAvatar(
-              backgroundColor: Colors.black,
-              radius: 50,
+            left: MediaQuery.of(context).size.width / 2.55,
+            top: 20,
+            child: CircleAvatar(
+              backgroundColor: black,
+              radius: 50.r,
               child: user.imagePath != null
-                  ? SizedBox(width:100,height: 100,
-
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    child: Image.file(File(user.imagePath!,),fit: BoxFit.cover,)),
-              )
-                  : const Icon(Icons.person,color: Colors.white),
-
-            ),),
+                  ? SizedBox(
+                      width: 100.w,
+                      height: 100.h,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(100.r),
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          child: Image.file(
+                            File(
+                              user.imagePath!,
+                            ),
+                            fit: BoxFit.cover,
+                          )),
+                    )
+                  : const Icon(Icons.person, color: white),
+            ),
+          ),
           Positioned(
-            top: MediaQuery.of(context).size.height/7.5,
-            left: 20,
-            right: 20,
-            bottom: 20,
-            child:  Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            top: MediaQuery.of(context).size.height / 5.h,
+            left: 20.w,
+            right: 20.w,
+            bottom: 20.h,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  'Name:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                TextCustom(
+                  text: 'Name',
+                  textSize: 15.sp,
+                  fontWeight: FontWeight.bold,
+                  color: black,
                 ),
-                Text(
-                  user.name.toString(),
-                  style: const TextStyle(fontSize: 16),
+                TextCustom(
+                  text: user.name.toString(),
+                  textSize: 15.sp,
+                  color: black,
                 ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Qualification:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                sh10,
+                TextCustom(
+                  text: 'Qualification',
+                  textSize: 15.sp,
+                  fontWeight: FontWeight.bold,
+                  color: black,
                 ),
-                Text(
-                  user.qualification.toString(),
-                  style: const TextStyle(fontSize: 16),
+                TextCustom(
+                  text: user.qualification.toString(),
+                  textSize: 15.sp,
+                  color: black,
                 ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Age:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                sh10,
+                TextCustom(
+                  text: 'Age',
+                  textSize: 15.sp,
+                  fontWeight: FontWeight.bold,
+                  color: black,
                 ),
-                Text(
-                  user.age.toString(),
-                  style: const TextStyle(fontSize: 16),
+                TextCustom(
+                  text: user.age.toString(),
+                  textSize: 15.sp,
+                  color: black,
                 ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Phone:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                sh10,
+                TextCustom(
+                  text: 'Phone',
+                  textSize: 15.sp,
+                  fontWeight: FontWeight.bold,
+                  color: black,
                 ),
-                Text(
-                  user.phone.toString(),
-                  style: const TextStyle(fontSize: 16),
+                TextCustom(
+                  text: user.phone.toString(),
+                  textSize: 15.sp,
+                  color: black,
                 ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Description:',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                sh10,
+                TextCustom(
+                  text: 'Description',
+                  textSize: 15.sp,
+                  fontWeight: FontWeight.bold,
+                  color: black,
                 ),
-                Text(
-                  user.description.toString(),
-                  style: const TextStyle(fontSize: 16),
+                TextCustom(
+                  text: user.description.toString(),
+                  textSize: 15.sp,
+                  color: black,
                 ),
               ],
             ),
           ),
           Positioned(
-            bottom: MediaQuery.of(context).size.height/4.5,
+            bottom: MediaQuery.of(context).size.height / 4.5,
             left: 25,
             right: 25,
-            child:
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              ElevatedButton(
-
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-
-                    builder: (context) => UserDetailsEdit(user, "Edit User"),
-                  ));
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                ElevatedButton(
+                  onPressed: () {
+                    controller.navigateToDetail(user, user.name.toString());
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: black, foregroundColor: white),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 35),
+                    child: TextCustom(
+                      text: 'Edit',
+                      color: white,
+                    ),
+                  ),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 35),
-                  child: Text('Edit'),
+                sw10,
+                ElevatedButton(
+                  onPressed: () {
+                    controller.showDeleteConfirmationDialog(user);
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: black, foregroundColor: white),
+                  child: const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                    child: Text('Delete'),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 10,),
-              ElevatedButton(
-                onPressed: ()
-                  {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: const Text("Delete...?"),
-                            content: Text(
-                                "Are you sure? ${user.name} will be deleted?"),
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text("Cancel")),
-                              TextButton(
-                                  onPressed: () {_deleteUser(context, user);
-
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text("Delete")),
-                            ],
-                          );
-                        });
-
-
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  foregroundColor: Colors.white
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  child: Text('Delete'),
-                ),
-              ),
-            ],
-          ),)
+              ],
+            ),
+          )
         ],
-
       ),
     );
-  }
-
-  void _deleteUser(BuildContext context, User user) async {
-    DatabaseHelper databaseHelper = DatabaseHelper();
-    int result = await databaseHelper.deleteUser(user.id!);
-    if (result != 0) {
-      _showSnackBar(context, 'User Deleted Successfully');
-
-   Navigator.of(context).push(MaterialPageRoute(builder:  (context) => const HomePage())
-   );
-    } else {
-      _showSnackBar(context, 'Error Deleting User');
-    }
-  }
-
-  void _showSnackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

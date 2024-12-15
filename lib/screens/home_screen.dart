@@ -14,7 +14,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.find<HomeController>();
-
     return Scaffold(
       appBar: AppBar(
         title: TextCustom(
@@ -96,6 +95,7 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
   ListView getUsersListView(HomeController controller) {
     return ListView.builder(
       itemCount: controller.userList.length,
@@ -110,15 +110,14 @@ class HomePage extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.r),
               ),
-              leading: CircleAvatar(
-                backgroundColor: black,
-                radius: 25.r,
+              leading: Container(height: 40.h,width: 40.w,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(25.r)),
                 child: user.imagePath != null
                     ? ClipRRect(
-                        borderRadius: BorderRadius.circular(25.r),
+                        borderRadius: BorderRadius.circular(100.r),
                         child: Image.file(
                           File(user.imagePath!),
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         ),
                       )
                     : const Icon(Icons.person, color: white),
@@ -127,13 +126,16 @@ class HomePage extends StatelessWidget {
                   Text(user.name ?? '', style: const TextStyle(color: black)),
               subtitle: Text(user.qualification ?? ''),
               trailing: buildActionButtons(context, controller, user),
-              onTap: () => Get.to(() => UserDetails(user)),
+              onTap: ()  {
+                FocusManager.instance.primaryFocus!.unfocus();
+                Get.to(() => UserDetails(user));},
             ),
           ),
         );
       },
     );
   }
+
   GridView getUserGridView(HomeController controller) {
     return GridView.builder(
       padding: const EdgeInsets.all(10),
@@ -147,7 +149,11 @@ class HomePage extends StatelessWidget {
       itemBuilder: (context, index) {
         final user = controller.userList[index];
         return InkWell(
-          onTap: () => Get.to(() => UserDetails(user)),
+          onTap: () {
+            FocusManager.instance.primaryFocus!.unfocus();
+                Get.to(() => UserDetails(user));
+
+          },
           child: Card(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20.r),
@@ -158,9 +164,9 @@ class HomePage extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
               child: Column(
                 children: [
-                  CircleAvatar(
-                    backgroundColor: black,
-                    radius: 35.r,
+                  Container(height: 40.h,width: 40.w,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(25.r)),
+
                     child: user.imagePath != null
                         ? ClipRRect(
                             borderRadius: BorderRadius.circular(35.r),
@@ -200,30 +206,7 @@ class HomePage extends StatelessWidget {
         IconButton(
           icon: const Icon(Icons.delete, color: black54),
           onPressed: () {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: const Text("Delete...?"),
-                  content: Text("Are you sure? ${user.name} will be deleted?"),
-                  actions: [
-                    TextButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      child: const Text("Cancel"),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        controller.deleteUser(user.id!);
-                        Get.back();
-                      },
-                      child: const Text("Delete"),
-                    ),
-                  ],
-                );
-              },
-            );
+            controller.showDeleteConfirmationDialog(user);
           },
         ),
       ],
